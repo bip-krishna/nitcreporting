@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>NITC - Late Reporting Management</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0d7ff2",
+                        "background-light": "#f5f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom scrollbar for better aesthetics */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        .dark ::-webkit-scrollbar-thumb {
+            background: #334155;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white antialiased selection:bg-primary/20 selection:text-primary">
+<div class="flex h-screen w-full overflow-hidden">
+<!-- Side Navigation -->
+<aside class="flex h-full w-72 flex-col border-r border-slate-200 bg-white dark:border-slate-800 dark:bg-[#111418] shrink-0 overflow-y-auto">
+<div class="flex h-full flex-col justify-between p-4">
+<div class="flex flex-col gap-4">
+<div class="flex gap-3 px-2 py-2">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border border-slate-200 dark:border-slate-700" data-alt="University Logo Abstract" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAXxPss2zMysp9XwRMrOhX83FRs5OaHK-IFpKp-64uLLWF5V2NwiU7GOG633D8LF0xjjLYFhlJY2HNROhZcU6xlgxFzYZOipSc7GCA_emtQ6r4BA_ZR215fuPtDH9UfY60K7emkpIZVE0aFSB4UHuGgQBLSfYDNABqu99dN2IMF-2SupijSC5YGgGN1ilrf9mn0qYRmVkWJayrVC5ifL_63OpXz1ryWSjUi3RZrJ1Z8b41CwWtSvTbEdL-YSAymXgB19K8pKRlBUmI");'></div>
+<div class="flex flex-col justify-center">
+<h1 class="text-slate-900 dark:text-white text-base font-bold leading-normal">NITC Admin</h1>
+<p class="text-slate-500 dark:text-slate-400 text-xs font-medium leading-normal">Admissions Portal</p>
+</div>
+</div>
+<div class="flex flex-col gap-1 mt-4">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors group" href="#">
+<span class="material-symbols-outlined text-slate-500 group-hover:text-primary dark:text-slate-400">dashboard</span>
+<p class="text-slate-600 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white text-sm font-medium">Dashboard</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors group" href="#">
+<span class="material-symbols-outlined text-slate-500 group-hover:text-primary dark:text-slate-400">group</span>
+<p class="text-slate-600 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white text-sm font-medium">Admissions</p>
+</a>
+<!-- Active State -->
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/10 border-l-4 border-primary" href="#">
+<span class="material-symbols-outlined text-primary">schedule</span>
+<p class="text-primary text-sm font-semibold">Late Reporting</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors group" href="#">
+<span class="material-symbols-outlined text-slate-500 group-hover:text-primary dark:text-slate-400">analytics</span>
+<p class="text-slate-600 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white text-sm font-medium">Capacity Planning</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors group" href="#">
+<span class="material-symbols-outlined text-slate-500 group-hover:text-primary dark:text-slate-400">settings</span>
+<p class="text-slate-600 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white text-sm font-medium">Settings</p>
+</a>
+</div>
+</div>
+<div class="mt-auto px-3 py-4 border-t border-slate-100 dark:border-slate-800">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-xs font-bold text-slate-600 dark:text-slate-300">AS</div>
+<div class="flex flex-col">
+<p class="text-xs font-semibold text-slate-900 dark:text-white">Admin User</p>
+<p class="text-[10px] text-slate-500 dark:text-slate-400">System Administrator</p>
+</div>
+<button class="ml-auto text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+<span class="material-symbols-outlined text-[20px]">logout</span>
+</button>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 flex flex-col h-full overflow-hidden bg-background-light dark:bg-background-dark relative">
+<!-- Header -->
+<header class="flex items-center justify-between px-8 py-5 border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-[#111418]/80 backdrop-blur-sm sticky top-0 z-20">
+<div class="flex flex-col gap-1">
+<nav class="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
+<a class="hover:text-primary transition-colors" href="#">Home</a>
+<span class="text-slate-300 dark:text-slate-600">/</span>
+<a class="hover:text-primary transition-colors" href="#">Admissions</a>
+<span class="text-slate-300 dark:text-slate-600">/</span>
+<span class="text-slate-900 dark:text-white font-medium">Late Reporting Pool</span>
+</nav>
+<h1 class="text-2xl font-bold text-slate-900 dark:text-white tracking-tight">Late Reporting Management</h1>
+</div>
+<div class="flex items-center gap-3">
+<button class="flex items-center justify-center size-10 rounded-full border border-slate-200 dark:border-slate-700 text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 size-2 bg-red-500 rounded-full border border-white dark:border-[#111418]"></span>
+</button>
+<button class="bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors shadow-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">download</span>
+                        Export Report
+                    </button>
+</div>
+</header>
+<!-- Scrollable Content Area -->
+<div class="flex-1 overflow-y-auto p-8">
+<div class="max-w-[1600px] mx-auto flex flex-col lg:flex-row gap-8">
+<!-- Left Column: Late Pool List (Flex grow) -->
+<div class="flex-1 flex flex-col gap-6 min-w-0">
+<!-- Search & Filter Toolbar -->
+<div class="flex flex-wrap items-center justify-between gap-4 bg-white dark:bg-[#151b24] p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+<div class="relative flex-1 min-w-[240px]">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-[20px]">search</span>
+<input class="w-full pl-10 pr-4 py-2.5 bg-slate-50 dark:bg-slate-900 border-none rounded-lg text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:ring-2 focus:ring-primary/50" placeholder="Search by name, ID or department..." type="text"/>
+</div>
+<div class="flex items-center gap-3">
+<div class="flex items-center gap-2 px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer">
+<span class="material-symbols-outlined text-slate-500 text-[18px]">filter_list</span>
+<span class="text-sm font-medium text-slate-700 dark:text-slate-300">Filters</span>
+</div>
+<div class="h-6 w-px bg-slate-200 dark:bg-slate-700"></div>
+<select class="bg-transparent border-none text-sm font-medium text-slate-700 dark:text-slate-300 focus:ring-0 cursor-pointer pr-8">
+<option>Sort by: Urgency</option>
+<option>Sort by: Date</option>
+<option>Sort by: ID</option>
+</select>
+</div>
+</div>
+<!-- Data Table -->
+<div class="bg-white dark:bg-[#151b24] rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden flex flex-col">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50">
+<th class="py-4 px-6 text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 w-12">
+<input class="rounded border-slate-300 text-primary focus:ring-primary/20 bg-transparent" type="checkbox"/>
+</th>
+<th class="py-4 px-6 text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Candidate Info</th>
+<th class="py-4 px-6 text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Department</th>
+<th class="py-4 px-6 text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Reason for Delay</th>
+<th class="py-4 px-6 text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Time Elapsed</th>
+<th class="py-4 px-6 text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 text-right">Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+<!-- Row 1 -->
+<tr class="group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+<td class="py-4 px-6 w-12 align-top">
+<input class="rounded border-slate-300 text-primary focus:ring-primary/20 bg-transparent mt-1" type="checkbox"/>
+</td>
+<td class="py-4 px-6">
+<div class="flex items-start gap-3">
+<div class="size-9 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 flex items-center justify-center font-bold text-xs shrink-0">AS</div>
+<div>
+<p class="text-sm font-semibold text-slate-900 dark:text-white">Aditi Sharma</p>
+<p class="text-xs text-slate-500 dark:text-slate-400">App ID: #9921</p>
+</div>
+</div>
+</td>
+<td class="py-4 px-6">
+<p class="text-sm font-medium text-slate-900 dark:text-white">Computer Science</p>
+<p class="text-xs text-slate-500 dark:text-slate-400">B.Tech (Gen)</p>
+</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400 border border-amber-200 dark:border-amber-800">HIGH PRIORITY</span>
+</div>
+<p class="text-sm text-slate-600 dark:text-slate-300 mt-1 line-clamp-1">Medical Emergency (Hospitalized)</p>
+</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-1 text-slate-500 dark:text-slate-400">
+<span class="material-symbols-outlined text-[16px]">history</span>
+<span class="text-sm font-medium">+ 2 Days</span>
+</div>
+</td>
+<td class="py-4 px-6 text-right">
+<button class="text-slate-400 hover:text-primary transition-colors p-1">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+<td class="py-4 px-6 w-12 align-top">
+<input class="rounded border-slate-300 text-primary focus:ring-primary/20 bg-transparent mt-1" type="checkbox"/>
+</td>
+<td class="py-4 px-6">
+<div class="flex items-start gap-3">
+<div class="size-9 rounded-full bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 flex items-center justify-center font-bold text-xs shrink-0">RK</div>
+<div>
+<p class="text-sm font-semibold text-slate-900 dark:text-white">Rahul Kumar</p>
+<p class="text-xs text-slate-500 dark:text-slate-400">App ID: #8842</p>
+</div>
+</div>
+</td>
+<td class="py-4 px-6">
+<p class="text-sm font-medium text-slate-900 dark:text-white">Mechanical Eng.</p>
+<p class="text-xs text-slate-500 dark:text-slate-400">B.Tech (OBC)</p>
+</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400 border border-slate-200 dark:border-slate-700">MEDIUM</span>
+</div>
+<p class="text-sm text-slate-600 dark:text-slate-300 mt-1 line-clamp-1">Transport Delay (Flight Cancelled)</p>
+</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-1 text-slate-500 dark:text-slate-400">
+<span class="material-symbols-outlined text-[16px]">history</span>
+<span class="text-sm font-medium">+ 4 Hours</span>
+</div>
+</td>
+<td class="py-4 px-6 text-right">
+<button class="text-slate-400 hover:text-primary transition-colors p-1">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+<td class="py-4 px-6 w-12 align-top">
+<input class="rounded border-slate-300 text-primary focus:ring-primary/20 bg-transparent mt-1" type="checkbox"/>
+</td>
+<td class="py-4 px-6">
+<div class="flex items-start gap-3">
+<div class="size-9 rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-bold text-xs shrink-0">SJ</div>
+<div>
+<p class="text-sm font-semibold text-slate-900 dark:text-white">Sneha Joseph</p>
+<p class="text-xs text-slate-500 dark:text-slate-400">App ID: #9102</p>
+</div>
+</div>
+</td>
+<td class="py-4 px-6">
+<p class="text-sm font-medium text-slate-900 dark:text-white">Architecture</p>
+<p class="text-xs text-slate-500 dark:text-slate-400">B.Arch (Gen)</p>
+</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400 border border-slate-200 dark:border-slate-700">LOW</span>
+</div>
+<p class="text-sm text-slate-600 dark:text-slate-300 mt-1 line-clamp-1">Personal reasons not specified</p>
+</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-1 text-slate-500 dark:text-slate-400">
+<span class="material-symbols-outlined text-[16px]">history</span>
+<span class="text-sm font-medium">+ 1 Day</span>
+</div>
+</td>
+<td class="py-4 px-6 text-right">
+<button class="text-slate-400 hover:text-primary transition-colors p-1">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+<td class="py-4 px-6 w-12 align-top">
+<input class="rounded border-slate-300 text-primary focus:ring-primary/20 bg-transparent mt-1" type="checkbox"/>
+</td>
+<td class="py-4 px-6">
+<div class="flex items-start gap-3">
+<div class="size-9 rounded-full bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 flex items-center justify-center font-bold text-xs shrink-0">VM</div>
+<div>
+<p class="text-sm font-semibold text-slate-900 dark:text-white">Vikram M.</p>
+<p class="text-xs text-slate-500 dark:text-slate-400">App ID: #7721</p>
+</div>
+</div>
+</td>
+<td class="py-4 px-6">
+<p class="text-sm font-medium text-slate-900 dark:text-white">Electrical Eng.</p>
+<p class="text-xs text-slate-500 dark:text-slate-400">B.Tech (SC)</p>
+</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400 border border-amber-200 dark:border-amber-800">HIGH PRIORITY</span>
+</div>
+<p class="text-sm text-slate-600 dark:text-slate-300 mt-1 line-clamp-1">Document Verification Failure</p>
+</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-1 text-slate-500 dark:text-slate-400">
+<span class="material-symbols-outlined text-[16px]">history</span>
+<span class="text-sm font-medium">+ 5 Hours</span>
+</div>
+</td>
+<td class="py-4 px-6 text-right">
+<button class="text-slate-400 hover:text-primary transition-colors p-1">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="flex items-center justify-between p-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/30">
+<p class="text-sm text-slate-500 dark:text-slate-400">Showing <span class="font-semibold text-slate-900 dark:text-white">1-4</span> of <span class="font-semibold text-slate-900 dark:text-white">42</span> candidates</p>
+<div class="flex gap-2">
+<button class="px-3 py-1 text-sm border border-slate-200 dark:border-slate-700 rounded-md bg-white dark:bg-slate-800 text-slate-400 cursor-not-allowed">Previous</button>
+<button class="px-3 py-1 text-sm border border-slate-200 dark:border-slate-700 rounded-md bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700">Next</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Sidebar: Capacity Intelligence (Fixed width on large screens) -->
+<div class="w-full lg:w-[380px] flex flex-col gap-6 shrink-0">
+<!-- Main Capacity Card -->
+<div class="bg-white dark:bg-[#151b24] rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm p-6 relative overflow-hidden group">
+<div class="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none"></div>
+<div class="flex items-center justify-between mb-6">
+<h2 class="text-lg font-bold text-slate-900 dark:text-white">Capacity Intelligence</h2>
+<span class="flex h-2 w-2 rounded-full bg-green-500 animate-pulse"></span>
+</div>
+<div class="flex flex-col items-center justify-center mb-8 relative">
+<!-- Circular Chart Representation -->
+<div class="relative size-48">
+<svg class="size-full -rotate-90" viewbox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
+<!-- Background Circle -->
+<path class="text-slate-100 dark:text-slate-800" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3"></path>
+<!-- Progress Circle (98% filled) -->
+<path class="text-primary" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="88, 100" stroke-linecap="round" stroke-width="3"></path>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="text-4xl font-bold text-slate-900 dark:text-white">128</span>
+<span class="text-xs font-medium text-slate-500 uppercase tracking-wide">Slots Open</span>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4 mb-6">
+<div class="bg-slate-50 dark:bg-slate-900 p-3 rounded-lg border border-slate-100 dark:border-slate-800">
+<p class="text-xs text-slate-500 mb-1">Predicted Churn</p>
+<p class="text-lg font-bold text-slate-900 dark:text-white">15% <span class="text-green-500 text-xs font-medium">↑ 2.5%</span></p>
+</div>
+<div class="bg-slate-50 dark:bg-slate-900 p-3 rounded-lg border border-slate-100 dark:border-slate-800">
+<p class="text-xs text-slate-500 mb-1">Optimization</p>
+<p class="text-lg font-bold text-slate-900 dark:text-white">98% <span class="text-slate-400 text-xs font-medium">Score</span></p>
+</div>
+</div>
+<div class="space-y-3">
+<div class="flex justify-between items-center text-sm">
+<span class="text-slate-600 dark:text-slate-300">Waitlist Pressure</span>
+<span class="text-orange-500 font-medium">High</span>
+</div>
+<div class="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-1.5">
+<div class="bg-orange-500 h-1.5 rounded-full" style="width: 75%"></div>
+</div>
+<p class="text-xs text-slate-500 dark:text-slate-500 mt-2">
+                                    Formula predicts <span class="font-semibold text-slate-900 dark:text-white">24 safe auto-allotments</span> based on current churn rate.
+                                </p>
+</div>
+</div>
+<!-- Action Module -->
+<div class="flex flex-col gap-3">
+<button class="w-full bg-primary hover:bg-blue-600 text-white font-semibold py-3 px-4 rounded-xl shadow-lg shadow-blue-500/20 transition-all active:scale-[0.98] flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">smart_toy</span>
+                                Auto-Allot 24 Safe Slots
+                            </button>
+<button class="w-full bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-white font-medium py-3 px-4 rounded-xl border border-slate-200 dark:border-slate-700 transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-slate-500">mail</span>
+                                Notify Late Candidates
+                            </button>
+</div>
+<!-- Recent Activity Log (Mini) -->
+<div class="bg-white dark:bg-[#151b24] rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm p-5">
+<h3 class="text-sm font-bold text-slate-900 dark:text-white mb-4 uppercase tracking-wider">Live Feed</h3>
+<div class="relative pl-4 border-l border-slate-200 dark:border-slate-700 space-y-6">
+<div class="relative">
+<div class="absolute -left-[21px] bg-green-500 h-2.5 w-2.5 rounded-full border-2 border-white dark:border-[#151b24]"></div>
+<p class="text-xs text-slate-500 mb-0.5">10 mins ago</p>
+<p class="text-sm text-slate-800 dark:text-slate-200"><span class="font-semibold">System</span> released 5 slots from "No Show".</p>
+</div>
+<div class="relative">
+<div class="absolute -left-[21px] bg-blue-500 h-2.5 w-2.5 rounded-full border-2 border-white dark:border-[#151b24]"></div>
+<p class="text-xs text-slate-500 mb-0.5">32 mins ago</p>
+<p class="text-sm text-slate-800 dark:text-slate-200"><span class="font-semibold">Aditi Sharma</span> updated reason to "Medical".</p>
+</div>
+<div class="relative">
+<div class="absolute -left-[21px] bg-slate-300 dark:bg-slate-600 h-2.5 w-2.5 rounded-full border-2 border-white dark:border-[#151b24]"></div>
+<p class="text-xs text-slate-500 mb-0.5">1 hour ago</p>
+<p class="text-sm text-slate-800 dark:text-slate-200">Manual override enabled by Admin.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>
