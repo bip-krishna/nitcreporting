@@ -1,27 +1,27 @@
 # NITC Reporting
 
-Flask-based queue management system for physical document reporting at NIT Calicut.
+Flask and SQLite prototype for coordinating physical admission reporting at NIT Calicut. Students book a reporting token and check their place in the queue. Staff use separate views for intake and verification.
 
-## Features
+[Quick start](#quick-start) · [Project layout](#project-layout)
 
-- **Student Portal** — Register, login, book slots, upload required documents (Class 10/12 marksheets, category certificate, fee receipt)
-- **Admin Dashboard** — Two-tier verification workflow, token queue management, Chanakya portal integration
-- **Token System** — Auto-generated tokens with time slots, fee status tracking, and real-time queue position
+## Quick start
 
-## Tech Stack
-
-- **Backend:** Flask (Python)
-- **Database:** SQLite via Flask-SQLAlchemy
-- **Auth:** Session-based with role separation (student vs admin)
-- **Frontend:** Jinja2 templates, HTML/CSS
-
-## Setup
+Run locally with Python 3 and use test records.
 
 ```bash
-git clone https://github.com/bip-krishna/nitcreporting.git
-cd nitcreporting/NITC-Physical-Reporting/queue-system
-pip install flask flask-sqlalchemy
+cd NITC-Physical-Reporting/queue-system
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install Flask Flask-SQLAlchemy
 python app.py
 ```
 
-Open `http://localhost:5000` to access the application.
+Open [localhost:5000](http://localhost:5000).
+
+## Project layout
+
+| Path | Purpose |
+| --- | --- |
+| [`queue-system/app.py`](NITC-Physical-Reporting/queue-system/app.py) | Application routes, queue state, and persistence |
+| [`queue-system/templates/`](NITC-Physical-Reporting/queue-system/templates/) | Student, queue status, and staff screens |
+| [`queue-system/static/`](NITC-Physical-Reporting/queue-system/static/) | Browser-side interactions |
